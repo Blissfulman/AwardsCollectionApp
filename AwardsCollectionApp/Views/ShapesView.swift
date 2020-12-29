@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-/*
 struct ShapesView: View {
     let awards = Award.getAwards()
     
@@ -18,44 +17,43 @@ struct ShapesView: View {
     
     var body: some View {
         NavigationView {
-            CustomGridView(items: activeAwards, columns: 2) { award in
+            CustomGridView(items: activeAwards, columns: 2) { award, size in
                 VStack {
                     award.awardView
                     Text(award.title)
                 }
+                .padding()
+                .frame(width: size.width, height: size.height)
             }
             .navigationBarTitle("Your awards: \(activeAwards.count)")
         }
     }
 }
 
-*/
-
-struct ShapesView: View {
-    let awards = Award.getAwards()
-    let columns = [GridItem(.adaptive(minimum: 160, maximum: 200))]
-    
-    var activeAwards: [Award] {
-        awards.filter { $0.awarded }
-    }
-    
-    var body: some View {
-        NavigationView {
-            ScrollView {
-                LazyVGrid(columns: columns) {
-                    ForEach(activeAwards, id: \.title) { award in
-                        VStack {
-                            award.awardView
-                            Text(award.title)
-                        }
-                    }
-                }
-            }
-            .navigationBarTitle("Your awards: \(activeAwards.count)")
-        }
-    }
-}
-
+//struct ShapesView: View {
+//    let awards = Award.getAwards()
+//    let columns = [GridItem(.adaptive(minimum: 160, maximum: 200))]
+//
+//    var activeAwards: [Award] {
+//        awards.filter { $0.awarded }
+//    }
+//
+//    var body: some View {
+//        NavigationView {
+//            ScrollView {
+//                LazyVGrid(columns: columns) {
+//                    ForEach(activeAwards, id: \.title) { award in
+//                        VStack {
+//                            award.awardView
+//                            Text(award.title)
+//                        }
+//                    }
+//                }
+//            }
+//            .navigationBarTitle("Your awards: \(activeAwards.count)")
+//        }
+//    }
+//}
 
 struct ShapesView_Previews: PreviewProvider {
     static var previews: some View {

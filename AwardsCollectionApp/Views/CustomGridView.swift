@@ -12,7 +12,7 @@ struct CustomGridView<Content, T>: View where Content: View {
     
     let items: [T]
     let columns: Int
-    let content: (T) -> Content
+    let content: (T, CGSize) -> Content
     
     var rows: Int {
         items.count / columns
@@ -21,14 +21,15 @@ struct CustomGridView<Content, T>: View where Content: View {
     var body: some View {
         GeometryReader { geometry in
             let sideSize = geometry.size.width / CGFloat(columns)
+            let size = CGSize(width: sideSize, height: sideSize)
             ScrollView {
                 VStack {
                     ForEach(0...rows, id: \.self) { rowIndex in
-                        HStack {
+                        HStack(spacing: 0) {
                             ForEach(0..<columns) { columnIndex in
-                                if let index = indexFor(row: rowIndex, column: columnIndex) {
-                                    content(items[index])
-                                        .frame(width: sideSize, height: sideSize)
+                                if let index = indexFor(row: rowIndex,
+                                                        column: columnIndex) {
+                                    content(items[index], size)
                                 } else {
                                     Spacer()
                                 }
@@ -48,8 +49,10 @@ struct CustomGridView<Content, T>: View where Content: View {
 
 struct CustomGridView_Previews: PreviewProvider {
     static var previews: some View {
-        CustomGridView(items: [11, 3, 7, 17, 5, 2, 1], columns: 3) { item in
+        CustomGridView(items: [11, 3, 7, 17, 5, 2, 1], columns: 3) { item, size in
             Text("\(item)")
+                .frame(width: size.width, height: size.height)
+                .overlay(Rectangle().stroke(Color.gray, lineWidth: 1))
         }
     }
 }
